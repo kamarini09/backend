@@ -7,7 +7,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
-  constructor() {}
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
     return this.categoryRepository.save(createCategoryDto);
