@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
+  constructor() {}
+
   create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return this.categoryRepository.save(createCategoryDto);
+  }
+
+  isAdult(age: number): boolean {
+    // if(age < 0) {
+    //   throw new Error('Age cannot be negative')
+    // }
+    return age > 18;
   }
 
   findAll() {
-    return `This action returns all categories`;
+    return this.categoryRepository.find({});
   }
 
   findOne(id: number) {
