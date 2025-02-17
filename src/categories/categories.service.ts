@@ -3,6 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -32,9 +33,9 @@ export class CategoriesService {
     return `This action returns a #${id} category`;
   }
 
-  // update(id: number, updateCategoryDto: UpdateCategoryDto) {
-  //   return `This action updates a #${id} category`;
-  // }
+  update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    return `This action updates a #${id} category`;
+  }
 
   remove(id: number) {
     return this.categoryRepository.delete(id);
