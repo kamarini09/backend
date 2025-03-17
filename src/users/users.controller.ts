@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard) // Apply JWT guard globally to all routes (except @Post)
 export class UserController {
   constructor(private readonly userService: UsersService) {}
 
@@ -24,38 +25,33 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  // ✅ Protected route - Requires JWT authentication
-  @UseGuards(JwtAuthGuard)
+  // ✅ Protected route - Authenticated users can get all users
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
-  // ✅ Protected route - Requires JWT authentication
-  @UseGuards(JwtAuthGuard)
+  // ✅ Protected route - Users can view their own profile
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
+  // ✅ Protected route - Only authenticated users can get user info
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
-  // ✅ Protected route - Requires JWT authentication
-  @UseGuards(JwtAuthGuard)
+  // ✅ Protected route - Only authenticated users can update their profile
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  // ✅ Protected route - Requires JWT authentication
-  @UseGuards(JwtAuthGuard)
+  // ✅ Protected route - Only authenticated users can delete their account
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
-  }
-
-  // ✅ Get authenticated user profile
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user; // Returns authenticated user info
   }
 }

@@ -29,12 +29,11 @@ export class UsersService {
     return user; // Return user data if valid
   }
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // 🔥 Ensure the password is hashed before saving
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const user = this.userRepository.create({
       ...createUserDto,
-      password: hashedPassword, // ✅ Store the hashed password
+      password: hashedPassword,
     });
 
     return this.userRepository.save(user);

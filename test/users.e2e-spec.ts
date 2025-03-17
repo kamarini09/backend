@@ -43,10 +43,6 @@ describe('Users Module (E2E)', () => {
       .send({ username: 'testuser', password: 'testpassword' });
 
     authToken = response.body.access_token;
-
-    // ✅ Log values to confirm they are set correctly
-    console.log('Test User ID:', testUserId);
-    console.log('Auth Token:', authToken);
   });
 
   afterAll(async () => {

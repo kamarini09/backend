@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, IsEnum } from 'class-validator';
+import { Role } from '../roles.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -10,5 +11,6 @@ export class CreateUserDto {
   @MinLength(4)
   password: string;
 
-  role?: string;
+  @IsEnum(Role, { message: 'role must be either user, premium, or admin' }) // ✅ Restrict roles
+  role: Role;
 }
