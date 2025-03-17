@@ -29,12 +29,12 @@ export class UsersService {
     return user; // Return user data if valid
   }
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // Hash the password before saving
+    // 🔥 Ensure the password is hashed before saving
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const user = this.userRepository.create({
       ...createUserDto,
-      password: hashedPassword,
+      password: hashedPassword, // ✅ Store the hashed password
     });
 
     return this.userRepository.save(user);
@@ -48,6 +48,12 @@ export class UsersService {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) throw new NotFoundException(`User with ID ${id} not found`);
     return user;
+  }
+  async findByUsername(username: string): Promise<User | undefined> {
+    return this.userRepository.findOne({
+      where: { username },
+      select: ['id', 'username', 'password'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
