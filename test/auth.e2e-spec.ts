@@ -8,6 +8,7 @@ import { User } from '../src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
+//here Tests authentication (login, JWT generation, failures).
 describe('Auth Module (E2E)', () => {
   let app: INestApplication;
   let userRepository: Repository<User>;
